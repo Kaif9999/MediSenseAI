@@ -9,7 +9,7 @@ function App() {
         <h2>Health AI</h2>
         <ul>
           <li><a href="#home">Home</a></li>
-          <li><a href="#About">About</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
@@ -24,7 +24,8 @@ function App() {
           <div className="text-description">
             <h1>Health AI</h1>
             <p>
-              Welcome to our innovative health platform powered by AI. Find Your Healthcare assistant here
+              Welcome to our innovative health platform powered by AI. Explore
+              the 3D model to learn more about human anatomy and health insights.
             </p>
             <div className="button-group">
               <button>Sign Up</button>
