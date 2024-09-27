@@ -1,0 +1,22 @@
+version: '3'
+services:
+  backend:
+    build: ./backend
+    container_name: backend_service
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - REPLICATE_API_KEY=${REPLICATE_API_KEY}
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_service
+    ports:
+      - "3000:3000"
+
+  streamlit:
+    build: ./streamlit_app
+    container_name: streamlit_service
+    ports:
+      - "8501:8501"
