@@ -1,0 +1,14 @@
+.env
+
+# Ignore virtual environments
+backend/venv/
+streamlit_app/venv/
+
+# Ignore other common files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env
+streamlit_app/.streamlit
