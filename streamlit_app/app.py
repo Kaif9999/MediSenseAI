@@ -5,20 +5,23 @@ import google.generativeai as genai
 import os
 import time
 from google.api_core.exceptions import InternalServerError
+import pdfplumber  # Add this import for PDF handling
 
 # Set the page configuration
 st.set_page_config(
-    page_title="Healthcare Symptom Checker",
+    page_title="MediSenseAI",
     page_icon="🩺",
     layout="wide",
 )
 
 # Title of the app
-st.title("🩺 Healthcare Symptom Checker")
+st.title("🩺 MediSenseAI")
 
 # Initialize session state for chat history
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+if "chat_sessions" not in st.session_state:
+    st.session_state.chat_sessions = []
+if "current_chat" not in st.session_state:
+    st.session_state.current_chat = []
 
 # Function to get response from Gemini API with retry mechanism
 def get_gemini_response(prompt):
@@ -39,28 +42,47 @@ def get_gemini_response(prompt):
             else:
                 raise e
 
-# Sidebar for chat history and new chat
+# Sidebar for chat history, new chat, and PDF upload
 st.sidebar.title("Chat History")
 if st.sidebar.button("New Chat"):
-    st.session_state.chat_history = []
+    if st.session_state.current_chat:
+        st.session_state.chat_sessions.append(st.session_state.current_chat)
+    st.session_state.current_chat = []
 
-if st.session_state.chat_history:
-    for i, chat in enumerate(st.session_state.chat_history):
-        st.sidebar.write(f"Chat {i+1}: {chat['message'][:20]}...")
+# Display chat sessions in the sidebar
+if st.session_state.chat_sessions:
+    for i, session in enumerate(st.session_state.chat_sessions):
+        st.sidebar.write(f"Chat Session {i+1}")
+        for message in session:
+            st.sidebar.write(f"{'User' if message['is_user'] else 'Assistant'}: {message['message'][:20]}...")
+
+# PDF upload button and analyze button
+with st.sidebar.form(key='pdf_form'):
+    uploaded_file = st.file_uploader("Upload PDF for Analysis", type=["pdf"])
+    analyze_button = st.form_submit_button(label='Analyze PDF')
+
+if analyze_button and uploaded_file is not None:
+    with pdfplumber.open(uploaded_file) as pdf:
+        first_page = pdf.pages[0]
+        text = first_page.extract_text()
+        st.session_state.current_chat.append({"message": text, "is_user": True})
+        with st.spinner("Analyzing PDF..."):
+            response = get_gemini_response(text)
+        st.session_state.current_chat.append({"message": response, "is_user": False})
 
 # Input area for symptoms and follow-up questions
 def send_message():
     user_input = st.session_state.input
     if user_input:
-        st.session_state.chat_history.append({"message": user_input, "is_user": True})
+        st.session_state.current_chat.append({"message": user_input, "is_user": True})
         with st.spinner("Generating response..."):
             response = get_gemini_response(user_input)
-        st.session_state.chat_history.append({"message": response, "is_user": False})
+        st.session_state.current_chat.append({"message": response, "is_user": False})
         st.session_state.input = ""
 
-# Display chat history
-if st.session_state.chat_history:
-    for chat in st.session_state.chat_history:
+# Display current chat
+if st.session_state.current_chat:
+    for chat in st.session_state.current_chat:
         with st.chat_message("user" if chat["is_user"] else "assistant"):
             st.markdown(chat["message"])
 

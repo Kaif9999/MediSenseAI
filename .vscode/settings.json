@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         "./tests/test_"
-    ]
+    ],
+    "css.customData": [".vscode/tailwind.json"]
 }

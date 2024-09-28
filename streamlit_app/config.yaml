@@ -1,0 +1,23 @@
+cookie:
+  expiry_days: 30
+  key: random_signature_key
+  name: random_cookie_name
+credentials:
+  usernames:
+    jsmith:
+      email: jsmith@gmail.com
+      name: John Smith
+      password: $2b$12$SD4l9emuY35kCCWyyjD/B.UvPvbC4MHyyFkqRU2HHQ8.3ALYXAETa
+    rbriggs:
+      email: rbriggs@gmail.com
+      name: Rebecca Briggs
+      password: $2b$12$6tzq2KR8S87Ym2LPTJIs9etoZnWokdZzpPk2sN.opDrUOsiUqRhfa
+    user1:
+      email: user1@example.com
+      name: User One
+      password: hashed_password1
+    user2:
+      email: user2@example.com
+      name: User Two
+      password: hashed_password2
+preauthorized: []
