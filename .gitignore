@@ -1,4 +1,6 @@
 .env
+.devcontainer
+.vscode
 
 # Ignore virtual environments
 backend/venv/
