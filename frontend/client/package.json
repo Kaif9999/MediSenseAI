@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "vite-plugin-gh-pages": "^1.0.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "vite-plugin-gh-pages"
+  }
+}
