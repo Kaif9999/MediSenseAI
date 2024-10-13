@@ -67,14 +67,3 @@ health-chatbot-app/
 ├── docker-compose.yml                   # Docker Compose configuration for multi-service deployment.
 └── README.md                            # Project documentation (this file).
 ```
-## Installation and Setup
-
-Follow these steps to set up the project on your local machine.
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/health-chatbot-app.git
-cd health-chatbot-app
-```
-
